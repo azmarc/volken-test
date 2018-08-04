@@ -18,8 +18,8 @@
                                 <div class="form-group row">
                                     <label for="type">Type</label>
                                     <select class="form-control" name="type" id="type" required>
-                                        <option>revenu</option>
-                                        <option>dépense</option>
+                                        <option value="0">revenu</option>
+                                        <option value="1">dépense</option>
                                     </select>
                                 </div>
                                 <div class="form-group row">

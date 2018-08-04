@@ -17,21 +17,22 @@ class TransactionController extends Controller
 
     public function createTransaction(Request $request) {
         $valid = $request->validate([
-            'type' => 'required|max:255',
+            'type' => 'required|numeric|max:255',
             'amount' => 'required|numeric|min:0',
             'date' => 'nullable|date',
         ]);
         if ($valid) {
             return DB::transaction(function () {
                 $transaction = new Transaction();
-                $transaction->nature = Input::get('type');
+                $transaction->nature = Input::get('type') === 0 ? 'revenu': 'depense';
                 $transaction->amount = Input::get('amount');
                 $transaction->date = Input::get('date');
                 $transaction->description = Input::get('description');
                 $transaction->user_id = Auth::user()->id;
 
                 $budget = Budget::where('user_id', Auth::user()->id)->first();
-                if (strtolower($transaction->nature) === 'dépense') {
+                // dd(Input::get('type') === '0');
+                if (Input::get('type') === '1') {
                     if ($budget->amount < $transaction->amount) {
                         return false;
                     }
